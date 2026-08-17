@@ -1007,6 +1007,50 @@ body.overlay-open {
   margin-bottom: 1.3rem;
 }
 
+/* ================================
+   ARTICLE FOOTER
+   Thin closing bar under the reading
+   column — echoes the site's real
+   footer without repeating its full
+   dark block.
+================================ */
+.article-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cream-dd);
+}
+
+.article-footer-brand {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--ink-l);
+}
+
+.article-footer-next {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  color: var(--pink-d);
+  cursor: pointer;
+  padding: 0.3rem 0;
+  transition: color 0.2s;
+}
+
+.article-footer-next:hover {
+  color: var(--pink-dd);
+}
+
+.article-footer-next:focus-visible {
+  outline: 2px solid var(--pink-d);
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .article-overlay {
     transition: none;

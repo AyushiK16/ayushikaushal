@@ -254,6 +254,7 @@
 // ================================
 const articleOverlay = document.getElementById("articleOverlay");
 const articleBack = document.getElementById("articleBack");
+const articleFooterNext = document.getElementById("articleFooterNext");
 const articleCat = document.getElementById("articleCat");
 const articleDate = document.getElementById("articleDate");
 const articleRead = document.getElementById("articleRead");
@@ -339,6 +340,11 @@ function renderProjects(projects) {
     .join("");
 }
 
+// the hash is the single source of truth for whether the overlay is
+// open and which project it's showing — this is what makes the
+// browser's back/forward buttons (and direct/shared links) work
+let loadedProjects = [];
+
 function openProjectOverlay(project) {
   const s = statusStyles[project.status] || statusStyles.live;
   articleCat.textContent = project.status;
@@ -374,6 +380,18 @@ function openProjectOverlay(project) {
       </div>
     `;
 
+  // "next project" footer link — loops back to the first project
+  // after the last one, so it always has something to point to
+  if (articleFooterNext && loadedProjects.length > 1) {
+    const currentIndex = loadedProjects.findIndex((p) => p.id === project.id);
+    const nextProject =
+      loadedProjects[(currentIndex + 1) % loadedProjects.length];
+    articleFooterNext.textContent = `next: ${nextProject.title} →`;
+    articleFooterNext.onclick = () => {
+      location.hash = `/projects/${nextProject.id}`;
+    };
+  }
+
   articleOverlay.classList.add("open");
   articleOverlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("overlay-open");
@@ -384,11 +402,6 @@ function openProjectOverlay(project) {
     gtag("event", "project_open", { project: project.id });
   }
 }
-
-// the hash is the single source of truth for whether the overlay is
-// open and which project it's showing — this is what makes the
-// browser's back/forward buttons (and direct/shared links) work
-let loadedProjects = [];
 
 function applyHashRoute() {
   const match = location.hash.match(/^#\/projects\/(.+)$/);

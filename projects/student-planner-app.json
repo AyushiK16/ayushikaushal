@@ -1,6 +1,6 @@
 {
-  "id": "edutrack",
-  "title": "edutrack",
+  "id": "student-planner-app",
+  "title": "student planner app",
   "status": "live",
   "overview": "a cross-platform academic planner app — the kind of thing i wanted to exist so i built it.",
   "stack": ["react native", "firebase", "expo"],
