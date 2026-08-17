@@ -1,0 +1,1248 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* defining all the colour palette variables in one place */
+
+:root {
+  /* cream colours for the background */
+  --cream: #faf6ef;
+  --cream-d: #efe6d5;
+  --cream-dd: #e0d5c0;
+
+  /* all shades of pink */
+  --pink: #e8b4c0;
+  --pink-l: #f5dce3;
+  --pink-d: #c47a8a;
+  --pink-dd: #8a3a4a;
+
+  /* matcha */
+  --green: #a8c49a;
+  --green-l: #d4e8cc;
+  --green-d: #5a7a52;
+
+  --ink: #2a2118;
+  --ink-m: #5a4a3a;
+  --ink-l: #8a7a6a;
+
+  /* tiramisu for the footer */
+  --tira: #1c1510;
+  --tira-m: #2e2318;
+  --tira-s: #3d3025;
+
+  --serif: "Playfair Display", serif;
+  --mono: "DM Mono", monospace;
+  --grotesk: "Space Grotesk", sans-serif;
+
+  /* Spacing scale — use these instead of random px values */
+  --space-xs: 0.25rem; /* 4px  */
+  --space-sm: 0.5rem; /* 8px  */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 2rem; /* 32px */
+  --space-xl: 4rem; /* 64px */
+  --space-2xl: 6rem; /* 96px */
+}
+
+html {
+  scroll-behavior: smooth; /* makes anchor links (#about) scroll smoothly */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ================================
+   LOADING SCREEN
+================================ */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  /*
+    inset: 0 is shorthand for top/right/bottom/left: 0
+    — pins this div to fill the entire viewport.
+  */
+}
+
+.loading-screen.loading-hide {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.loading-word {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  color: var(--pink-d);
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.loading-word.loading-fade {
+  opacity: 0;
+}
+
+body.loading-active {
+  overflow: hidden;
+}
+
+/* repeat visits: skip straight to the site, no flash */
+html.skip-intro .loading-screen {
+  display: none;
+}
+
+body {
+  font-family: var(--mono);
+  background-color: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ================================
+   GRAIN TEXTURE
+   A very low-opacity noise overlay
+   over the whole site. Pure CSS —
+   no image asset needed.
+================================ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  /*
+    max-width: 100% stops images from ever 
+    overflowing their container.
+    display: block removes the weird gap 
+    browsers put under inline images.
+  */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* nav bar information */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 246, 239, 0.93);
+  border-bottom: 1px solid var(--cream-d);
+
+  /*
+    position: sticky — stays at top of 
+    viewport as you scroll, but only within 
+    its parent container (unlike fixed which 
+    is always relative to the viewport).
+
+    z-index: 100 — makes sure nav sits on 
+    top of everything else visually. Think 
+    of it as layers — higher number = on top.
+
+    backdrop-filter adds a blur behind the 
+    semi-transparent background, giving that 
+    frosted glass effect.
+  */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari needs this prefix */
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  /*
+    list-style: none removes the bullet points
+    that <ul> adds by default
+  */
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-m);
+  text-decoration: none;
+  transition: color 0.2s;
+  /*
+    transition: color 0.2s means any colour 
+    change on this element animates over 0.2 
+    seconds instead of snapping instantly.
+    Always pair with a :hover rule.
+  */
+}
+
+.nav-links a:hover {
+  color: var(--pink-d);
+}
+
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ================================
+   HERO
+================================ */
+.hero {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  position: relative;
+  overflow: hidden;
+
+  /*
+    position: relative here is important — 
+    it makes .hero the reference point for 
+    the blobs which are position: absolute.
+    Without this, absolute children would 
+    be positioned relative to the whole page.
+
+    overflow: hidden clips the blobs so they 
+    don't stick out and cause a horizontal 
+    scrollbar.
+  */
+
+  /* the graph paper grid background */
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(var(--cream-d) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cream-d) 1px, transparent 1px);
+  background-size: 36px 36px;
+  /*
+    Two overlapping gradients:
+    first one draws horizontal lines every 36px,
+    second one (rotated 90deg) draws vertical lines.
+    Together = graph paper. background-size controls
+    how far apart the lines are.
+  */
+}
+
+/* Decorative blobs */
+.blob {
+  position: absolute;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  opacity: 0.28;
+  pointer-events: none;
+  /*
+    pointer-events: none means clicks pass 
+    straight through — the blob is purely 
+    decorative and won't block anything.
+
+    The border-radius with 4 values / 4 values
+    is the trick for organic blob shapes. Each 
+    pair controls horizontal and vertical 
+    curvature of each corner independently.
+  */
+}
+
+.blob-1 {
+  width: 340px;
+  height: 300px;
+  background: var(--pink);
+  top: 8%;
+  left: -4%;
+}
+
+.blob-2 {
+  width: 300px;
+  height: 280px;
+  background: var(--green);
+  bottom: 8%;
+  right: -3%;
+}
+
+.blob-3 {
+  width: 180px;
+  height: 160px;
+  background: var(--pink-l);
+  top: 55%;
+  left: 8%;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-d);
+  background: var(--green-l);
+  border: 1px solid var(--green);
+  padding: 0.28rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.75rem;
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 11vw, 7.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  /*
+    clamp(min, preferred, max) is the modern 
+    way to do fluid/responsive font sizes.
+    4rem = smallest it'll ever be,
+    11vw = scales with viewport width,
+    7.5rem = biggest it'll ever be.
+    No media queries needed.
+  */
+}
+
+.hero-name em {
+  color: var(--pink-d);
+  font-style: italic;
+}
+
+/* ================================
+   DOODLE ACCENTS
+   Hand-drawn SVG scribbles used
+   sparingly near section headings.
+================================ */
+.doodle {
+  color: var(--pink-d);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.doodle-hero {
+  display: block;
+  margin: 0.2rem auto 0;
+}
+
+.doodle-star {
+  position: absolute;
+  top: -0.4rem;
+  right: 0;
+  color: var(--green-d);
+}
+
+.hero-tagline {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-m);
+  margin-top: 1.1rem;
+  text-transform: lowercase;
+}
+
+.hero-desc {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--ink-l);
+  margin-top: 0.6rem;
+  max-width: 400px;
+  line-height: 1.85;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.6rem;
+  background: var(--tira);
+  color: var(--cream);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1.5px solid var(--ink);
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.cta-primary:hover {
+  background: var(--pink-dd);
+  border-color: var(--pink-dd);
+}
+
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.6rem;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1.5px solid var(--cream-dd);
+  transition: border-color 0.2s;
+}
+
+.cta-secondary:hover {
+  border-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 88vh;
+    padding: 3.5rem 1.25rem 2.5rem;
+  }
+
+  .blob-1 {
+    width: 200px;
+    height: 180px;
+  }
+
+  .blob-2 {
+    width: 180px;
+    height: 170px;
+  }
+
+  .blob-3 {
+    width: 110px;
+    height: 100px;
+  }
+
+  .hero-ctas {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    justify-content: center;
+  }
+}
+
+/* ================================
+   SCROLL HINT
+   A little animated indicator at 
+   the bottom of the hero
+================================ */
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 2.5rem;
+  color: var(--ink-l);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: bob 2.5s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  /*
+    @keyframes defines a reusable animation.
+    "bob" moves the element 5px down at the 
+    midpoint and back up, creating a floating 
+    effect. The animation property on .scroll-hint 
+    calls it and sets duration + timing + loop.
+  */
+}
+
+.dividerBar {
+  background-color: var(--tira-m);
+  height: 30px;
+}
+
+/* ================================
+   SHARED SECTION STYLES
+   Reused across about and projects
+================================ */
+.sec-eyebrow {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-d);
+  margin-bottom: 0.5rem;
+}
+
+.sec-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+  line-height: 1.15;
+}
+
+.sec-title em {
+  font-style: italic;
+  color: var(--pink-d);
+}
+
+.sec-sub {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--ink-l);
+  line-height: 1.8;
+  max-width: 520px;
+}
+
+/* ================================
+   ABOUT SECTION
+================================ */
+.about {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+  /*
+    margin: 0 auto centers a block element 
+    horizontally when it has a set max-width.
+    This is the standard way to constrain 
+    content width and keep it centered.
+  */
+}
+
+.section-intro {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+  /*
+    grid-template-columns: 200px 1fr means:
+    first column is exactly 200px (the photo),
+    second column takes all remaining space (1fr).
+    align-items: start stops the photo from 
+    stretching to match the text column height.
+  */
+}
+
+/* ================================
+   PHOTOBOOTH
+   Camera illustration + a photo strip
+   that "prints" downward via translateY
+   once scrolled into view (see script.js).
+================================ */
+.photobooth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camera-body {
+  position: relative;
+  z-index: 2;
+}
+
+.photo-strip-clip {
+  width: 132px;
+  overflow: hidden;
+  margin-top: -6px;
+  /*
+    No fixed height here on purpose: transform doesn't
+    affect layout, so this box auto-sizes to the strip's
+    normal (untransformed) height no matter how tall the
+    strip's content ends up being. overflow: hidden is
+    what makes the "printing" illusion work — anything
+    outside this box is invisible, so the strip sliding
+    down from translateY(-100%) looks like it's emerging
+    from the camera's slot rather than just fading in.
+    A hardcoded height here previously clipped the bottom
+    of the real photos once they were added.
+  */
+}
+
+.photo-strip {
+  width: 132px;
+  background: white;
+  border: 1.5px solid var(--cream-dd);
+  border-top: none;
+  padding: 0.6rem 0.6rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 6px 16px rgba(42, 33, 24, 0.08);
+  transform: translateY(-100%);
+  transition: transform 3s cubic-bezier(0.16, 1, 0.3, 1);
+  /*
+    cubic-bezier(0.16, 1, 0.3, 1) is an "ease-out-back"
+    style curve — it overshoots slightly past its resting
+    spot before settling, which reads as springy rather
+    than mechanical.
+  */
+}
+
+.photo-strip.strip-visible {
+  transform: translateY(0);
+}
+
+.photo-slot {
+  aspect-ratio: 4 / 3;
+  background: var(--cream-d);
+  border: 1px solid var(--cream-dd);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.photo-slot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.strip-caption {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--ink-m);
+  margin-top: 0.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-strip {
+    transition: none;
+  }
+
+}
+
+.about-body {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink-m);
+  line-height: 1.95;
+  margin-bottom: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.about-body strong {
+  font-weight: 400;
+  color: var(--ink);
+  /*
+    font-weight: 400 on strong might seem
+    counterintuitive but DM Mono doesn't have
+    a heavy bold weight — this just makes it
+    the darkest ink colour instead
+  */
+}
+
+@media (max-width: 720px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: left;
+    gap: 2.5rem;
+  }
+}
+
+/* ================================
+   TAGS / CHIPS
+================================ */
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.18rem 0.65rem;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.tag-green {
+  background: var(--green-l);
+  color: var(--green-d);
+  border: 1px solid var(--green);
+}
+
+.tag-pink {
+  background: var(--pink-l);
+  color: var(--pink-d);
+  border: 1px solid var(--pink);
+}
+
+.tag-neutral {
+  background: var(--cream-d);
+  color: var(--ink-m);
+  border: 1px solid var(--cream-dd);
+}
+
+/* all card design  */
+
+.card {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  border-radius: 6px;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--pink-d);
+  outline-offset: 3px;
+}
+
+.card-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-m);
+  margin-top: -0.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.card-expand-hint {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-l);
+}
+
+/* ================================
+   PROJECT CASE STUDY
+   Rendered inside the shared
+   #articleOverlay (see script.js).
+================================ */
+.case-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-m);
+  margin-bottom: 1.6rem;
+}
+
+.case-credit {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--cream-dd);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-l);
+}
+
+.case-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.case-block h4 {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pink-d);
+  margin-bottom: 0.35rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.card:hover {
+  border-color: #c47a8a;
+  transform: translateY(-3px);
+}
+
+.card-header h3 {
+  padding: 0.5rem 0;
+}
+
+.card-header span {
+  font-size: 0.65rem;
+  background: #d4e8cc;
+  color: #3a5a32;
+  border: 1px solid #a8c49a;
+  border-radius: 2px;
+  padding: 0.15rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  /*
+    white-space: nowrap stops the badge text 
+    from ever line-breaking — "live" should 
+    always stay on one line
+  */
+}
+
+.card p {
+  font-size: 0.8rem;
+  color: #5a4a3a;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+}
+
+.card-footer span {
+  font-size: 0.65rem;
+  background: #efe6d5;
+  color: #5a4a3a;
+  border: 1px solid #e0d5c0;
+  padding: 0.12rem 0.5rem;
+  border-radius: 2px;
+}
+
+.projects {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+/* ================================
+   ARTICLE OVERLAY
+   Full-screen reading view. Space
+   Grotesk is used only here, per
+   the design system.
+================================ */
+.article-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--cream);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.article-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+body.overlay-open {
+  overflow: hidden;
+}
+
+.article-overlay-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.article-back {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  color: var(--ink-m);
+  cursor: pointer;
+  margin-bottom: 2.5rem;
+  padding: 0.3rem 0;
+}
+
+.article-back:hover {
+  color: var(--pink-d);
+}
+
+.article-back:focus-visible {
+  outline: 2px solid var(--pink-d);
+  outline-offset: 3px;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-l);
+}
+
+.article-cat {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.6rem;
+  border-radius: 2px;
+}
+
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 2.2rem;
+}
+
+.article-body {
+  font-family: var(--grotesk);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--ink-m);
+}
+
+.article-body p {
+  margin-bottom: 1.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-overlay {
+    transition: none;
+  }
+}
+
+/* ================================
+   FOOTER / CONTACT
+================================ */
+.footer {
+  background: var(--tira);
+  color: var(--cream);
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+}
+
+.footer-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.75rem;
+  color: var(--cream);
+}
+
+.footer-tagline {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: rgba(250, 246, 239, 0.6);
+  margin-top: 0.5rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.footer-icon-link {
+  color: var(--cream);
+  opacity: 0.75;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
+}
+
+.footer-icon-link:hover {
+  opacity: 1;
+  color: var(--pink);
+}
+
+.footer-icon-link:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+.footer-listening {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: rgba(250, 246, 239, 0.6);
+  margin-top: 2.5rem;
+}
+
+#nowListening {
+  color: var(--pink-l);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--tira-s);
+  width: 100%;
+}
+
+.footer-small {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(250, 246, 239, 0.45);
+}
+
+.footer-stamp {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(250, 246, 239, 0.7);
+  border: 1px dashed rgba(250, 246, 239, 0.35);
+  border-radius: 3px;
+  padding: 0.3rem 0.7rem;
+  transform: rotate(-1.5deg);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.footer-stamp:hover {
+  color: var(--pink-l);
+  border-color: rgba(245, 220, 227, 0.6);
+}
+
+.footer-stamp:focus-visible {
+  outline: 2px solid var(--pink-l);
+  outline-offset: 3px;
+}
+
+/* ================================
+   CUSTOM CURSOR
+   Desktop-only (fine pointer + hover
+   capable) and reduced-motion aware.
+================================ */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9997;
+  pointer-events: none;
+  color: var(--pink-d);
+  font-size: 1.7rem;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.04s linear,
+    opacity 0.2s ease;
+  /*
+    A very short, linear transform transition keeps the glyph
+    snappy and easy to track, while still smoothing out the
+    tiniest bit of jitter between mousemove events — enough to
+    read as "following," not as lag.
+  */
+}
+
+.custom-cursor.visible {
+  opacity: 0.9;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* ================================
+   CURSOR SHAPE TOGGLE (easter egg)
+   Tucked in a corner, subtle until
+   hovered. Only present alongside
+   the custom cursor itself.
+================================ */
+.cursor-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 400;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px dashed var(--ink-l);
+  color: var(--ink-m);
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.3;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cursor-toggle:hover,
+.cursor-toggle:focus-visible {
+  opacity: 1;
+  border-color: var(--pink-d);
+}
+
+.cursor-toggle:focus-visible {
+  outline: 2px solid var(--pink-d);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cursor-toggle {
+    display: none;
+  }
+}
+
+/* ================================
+   CONFETTI EASTER EGG
+   Pieces are created and removed by
+   script.js when someone types "ayushi".
+================================ */
+.confetti-burst {
+  position: fixed;
+  inset: 0;
+  z-index: 9996;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  animation: confetti-fall 1.8s ease-in forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(var(--rot, 360deg));
+    opacity: 0;
+  }
+}
+
+/* ================================
+   BACK TO TOP
+================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 400;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--tira);
+  color: var(--cream);
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background 0.2s ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--pink-dd);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--pink-d);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor,
+  .confetti-piece {
+    display: none;
+  }
+
+  .back-to-top {
+    transition: opacity 0.01s linear;
+  }
+}
