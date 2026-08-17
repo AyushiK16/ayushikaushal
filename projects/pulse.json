@@ -1,6 +1,6 @@
 {
   "id": "pulse",
-  "title": "Pulse",
+  "title": "pulse",
   "subtitle": "Financial news sentiment dashboard",
   "status": "in development",
   "overview": "A dashboard that reads financial news the way a trader skims a terminal — fast, and with a sense of which way the mood is turning.",

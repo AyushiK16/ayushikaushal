@@ -4,7 +4,14 @@
   "subtitle": "Regime dependence in gold's sensitivity to real interest rates, 2003–2026",
   "status": "under submission",
   "overview": "Gold is supposed to move against real interest rates. I wanted to know whether that relationship has always held — and it hasn't.",
-  "stack": ["python", "statsmodels", "xgboost", "shap", "fred api", "block bootstrap"],
+  "stack": [
+    "python",
+    "statsmodels",
+    "xgboost",
+    "shap",
+    "fred api",
+    "block bootstrap"
+  ],
   "credit": "Co-authored with Dr. Kapil Tomar (CSE, TIET). Under submission to IMRC 2026 (IIM Ahmedabad) and ConfAI 2026 (Plaksha).",
   "body": [
     "Gold is supposed to move against real interest rates. I wanted to know whether that relationship has always held — and it hasn't.",

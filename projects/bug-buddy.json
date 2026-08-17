@@ -1,6 +1,6 @@
 {
   "id": "bug-buddy",
-  "title": "Bug Buddy",
+  "title": "dot - the debugger",
   "subtitle": "A ladybug on your screen that refuses to give you the answer",
   "status": "shipped",
   "overview": "Ask an LLM a coding question and it hands you a finished, tailored solution — the exact wrong thing when you're trying to learn.",
