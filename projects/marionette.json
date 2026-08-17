@@ -1,0 +1,12 @@
+{
+  "id": "marionette",
+  "title": "Marionette",
+  "subtitle": "Gesture-controlled Spotify player",
+  "status": "shipped",
+  "overview": "Conducting music with your hands — a sentence that sounds better than the engineering behind it deserves.",
+  "stack": ["python", "mediapipe", "scikit-learn", "spotify api"],
+  "body": [
+    "Conducting music with your hands, which is a sentence that sounds better than the engineering behind it deserves — but the engineering is the part I'm proud of.",
+    "MediaPipe handles hand landmark detection, and a KNN classifier maps gestures to playback controls. The piece I actually designed was the feature vector: raw landmark coordinates are useless for classification because they encode where your hand is and how big it appears, not what shape it's making. A custom normalised feature vector strips out position and scale so the classifier learns gesture geometry instead of memorising your webcam setup."
+  ]
+}

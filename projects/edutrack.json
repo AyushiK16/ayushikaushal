@@ -1,0 +1,10 @@
+{
+  "id": "edutrack",
+  "title": "edutrack",
+  "status": "live",
+  "overview": "a cross-platform academic planner app — the kind of thing i wanted to exist so i built it.",
+  "stack": ["react native", "firebase", "expo"],
+  "problem": "i wanted an academic planner that didn't feel like a corporate productivity app — something built around how students actually think about a semester.",
+  "built": "a cross-platform mobile app with react native, expo, and firebase — assignments, deadlines, and grades in one place, syncing across devices.",
+  "learned": "mobile development has a different rhythm than web — testing on real devices, thinking about offline states, and expo's build pipeline all took getting used to."
+}

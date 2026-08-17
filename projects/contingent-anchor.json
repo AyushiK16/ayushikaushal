@@ -1,0 +1,16 @@
+{
+  "id": "contingent-anchor",
+  "title": "The Contingent Anchor",
+  "subtitle": "Regime dependence in gold's sensitivity to real interest rates, 2003–2026",
+  "status": "under submission",
+  "overview": "Gold is supposed to move against real interest rates. I wanted to know whether that relationship has always held — and it hasn't.",
+  "stack": ["python", "statsmodels", "xgboost", "shap", "fred api", "block bootstrap"],
+  "credit": "Co-authored with Dr. Kapil Tomar (CSE, TIET). Under submission to IMRC 2026 (IIM Ahmedabad) and ConfAI 2026 (Plaksha).",
+  "body": [
+    "Gold is supposed to move against real interest rates. I wanted to know whether that relationship has always held — and it hasn't.",
+    "Working with weekly data from 2003 to mid-2026 (~1,200 observations pulled from FRED, Yahoo Finance, and the Caldara–Iacoviello geopolitical risk index), I tested for structural breaks in gold's real-rate beta. There's a robust break at January 2009: before it, beta is positive (+2.90); after, negative (−6.03). The textbook relationship doesn't predate quantitative easing — it emerges with it.",
+    "The second finding is the one I kept trying to explain away. Since February 2022, gold has drifted +80.5% beyond what the model predicts, beating all 5,000 block-bootstrap resamples. I ran the obvious alternatives and rejected them: Fed rate turbulence (p=0.14), geopolitical risk (fills 5% of the gap), Western ETF flows (21%). A copper placebo came back clean (−23%, p=0.63), which tells me the method isn't just manufacturing residuals out of noise.",
+    "I also layered on XGBoost with rolling SHAP attribution, and got a result I liked precisely because it was uncomfortable: explanatory R² collapses from 0.32 to 0.10 post-2022, while the model's reliance on the real-rate feature actually rises. The signal is still there. It just stopped being enough.",
+    "The paper reports its nulls honestly — regime dummies don't improve forecasts, the 2022 returns break is marginal and flips with a single week of data, and the central-bank holdings data is unusable because Russia stopped reporting to the IMF in exactly the month the anomaly begins."
+  ]
+}

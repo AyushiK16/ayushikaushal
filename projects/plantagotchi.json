@@ -1,0 +1,12 @@
+{
+  "id": "plantagotchi",
+  "title": "Plantagotchi",
+  "subtitle": "A plant that tells you how it's doing",
+  "status": "v2.0",
+  "overview": "An ESP32 wired to a soil moisture sensor and an OLED, giving a houseplant a small face and a way to complain about being thirsty.",
+  "stack": ["esp32", "c++ / arduino", "sh1106 oled", "capacitive soil moisture sensor"],
+  "body": [
+    "An ESP32 wired to a capacitive soil moisture sensor and an SH1106 OLED, giving a houseplant a small face and a way to complain about being thirsty.",
+    "My first real hardware project, which mostly meant learning that the software habits don't transfer cleanly — analog sensors drift, calibration is a per-sensor fact rather than a datasheet constant, and there's no debugger, just an LED and a lot of patience."
+  ]
+}

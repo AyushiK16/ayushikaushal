@@ -1,0 +1,14 @@
+{
+  "id": "pulse",
+  "title": "Pulse",
+  "subtitle": "Financial news sentiment dashboard",
+  "status": "in development",
+  "overview": "A dashboard that reads financial news the way a trader skims a terminal — fast, and with a sense of which way the mood is turning.",
+  "stack": ["next.js", "typescript", "tailwind", "finbert", "python"],
+  "body": [
+    "A dashboard that reads financial news the way a trader skims a terminal — fast, and with a sense of which way the mood is turning.",
+    "The first version used VADER, which is a fine general-purpose sentiment model and a bad financial one. \"Shares plunge on beat-and-raise guidance\" is not a negative headline, but VADER is very confident that it is. Version two replaces it with FinBERT, which is trained on financial text and understands that the vocabulary of markets is its own dialect.",
+    "v2 also rebuilds the frontend properly — Next.js, TypeScript, Tailwind — because the analysis being right doesn't matter if reading it is a chore.",
+    "Actively in development."
+  ]
+}

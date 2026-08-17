@@ -1,0 +1,10 @@
+{
+  "id": "cpu-benchmarking",
+  "title": "cpu benchmarking",
+  "status": "research",
+  "overview": "ml-based CPU performance optimisation comparing XGBoost, Random Forest, and Logistic Regression.",
+  "stack": ["python", "xgboost", "scikit-learn"],
+  "problem": "predicting cpu performance under different workloads usually means slow, expensive real-world benchmarking.",
+  "built": "an ml pipeline comparing xgboost, random forest, and logistic regression models trained on performance data, aiming to predict outcomes without running the full benchmark suite.",
+  "learned": "how much model choice depends on the shape of your data — xgboost's edge here wasn't automatic, and i had to actually justify it with the numbers, not just pick the trendy model."
+}
