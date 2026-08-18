@@ -16,7 +16,7 @@ That's it — the site fetches `manifest.json`, then fetches each project file l
 | `id` | yes | must exactly match the filename (without `.json`) |
 | `title` | yes | shows on the card and at the top of the case study |
 | `subtitle` | no | short italic line under the title — a tagline |
-| `status` | yes | the little badge on the card, e.g. `"shipped"`, `"in development"`, `"live"`, `"under submission"`. Any text works; known statuses get a colour from `statusStyles` in `script.js` — unrecognised ones just fall back to the default green. |
+| `status` | yes | the little badge on the card. Keep it to one of the existing categories so the colours stay consistent: `"shipped"` (done — covers "live"/"built"/"shipped", they're all the same thing), `"in development"`, `"under submission"`, `"research"`. Any other text works too but falls back to the default green. |
 | `overview` | yes | the short blurb shown on the card itself (a sentence or two) |
 | `stack` | yes | array of tech tags, e.g. `["python", "react"]` — shown as small chips |
 | `body` | one of `body` **or** `problem`/`built`/`learned` | array of paragraphs (plain text, no HTML needed) for the full case-study page. Each string becomes one paragraph. |
@@ -47,7 +47,7 @@ That's it — the site fetches `manifest.json`, then fetches each project file l
 {
   "id": "my-new-thing",
   "title": "My New Thing",
-  "status": "live",
+  "status": "shipped",
   "overview": "The sentence that shows up on the card preview.",
   "stack": ["python", "react"],
   "problem": "What problem this solves.",

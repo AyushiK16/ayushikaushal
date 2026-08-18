@@ -664,6 +664,86 @@ a {
 
 }
 
+/* ================================
+   POLAROID (single) — PHONE VARIANT
+   An alternate to the photo strip above,
+   just for comparison on real phones. Only
+   swaps in at phone widths; the strip is
+   the default everywhere else and is left
+   completely untouched.
+================================ */
+.polaroid-single {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .camera-body,
+  .photo-strip-clip {
+    display: none;
+  }
+
+  .polaroid-single {
+    display: block;
+    position: relative;
+    width: 190px;
+    margin: 0 auto;
+    background: white;
+    padding: 0.8rem 0.8rem 1.4rem;
+    border: 1px solid var(--cream-dd);
+    border-radius: 3px;
+    box-shadow: 0 12px 28px rgba(42, 33, 24, 0.14);
+    transform: rotate(-3deg) scale(0.9);
+    opacity: 0;
+    transition:
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.6s ease;
+  }
+
+  .polaroid-single.polaroid-visible {
+    opacity: 1;
+    transform: rotate(-3deg) scale(1);
+  }
+
+  .polaroid-tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 46px;
+    height: 18px;
+    transform: translateX(-50%) rotate(-2deg);
+    background: rgba(232, 180, 192, 0.55);
+    border: 1px solid rgba(232, 180, 192, 0.7);
+  }
+
+  .polaroid-photo {
+    aspect-ratio: 4 / 3;
+    background: var(--cream-d);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .polaroid-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .polaroid-caption {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.78rem;
+    text-align: center;
+    color: var(--ink-m);
+    margin-top: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .polaroid-single {
+    transition: none;
+  }
+}
+
 .about-body {
   font-family: var(--mono);
   font-size: 0.85rem;
@@ -901,13 +981,24 @@ a {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transform: translateY(18px);
+  /*
+    `visibility` is included here (not just opacity/transform) so it
+    only flips to hidden once the fade-out actually finishes — without
+    it the overlay vanishes instantly and the transition never gets a
+    chance to render, which reads as an abrupt "disappear" on close.
+  */
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.35s;
 }
 
 .article-overlay.open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transform: translateY(0);
 }
 
 body.overlay-open {

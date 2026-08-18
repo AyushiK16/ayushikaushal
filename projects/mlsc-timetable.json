@@ -1,7 +1,7 @@
 {
   "id": "mlsc-timetable",
   "title": "mlsc timetable",
-  "status": "live",
+  "status": "shipped",
   "overview": "production timetable software built for the ML Student Community at Thapar. real users, real constraints.",
   "stack": ["react", "node.js", "firebase"],
   "problem": "the ML Student Community at Thapar was managing timetables in spreadsheets and group chats — constant clashes, no single source of truth.",

@@ -99,6 +99,41 @@
 })();
 
 // ================================
+// POLAROID (single) — phone variant
+// Same fade/scale-in idea as the photo
+// strip above, just for the alternate
+// single-polaroid element shown only at
+// phone widths (see style.css).
+// ================================
+(function initPolaroidSingle() {
+  const polaroid = document.querySelector(".polaroid-single");
+  if (!polaroid) return;
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (prefersReducedMotion) {
+    polaroid.classList.add("polaroid-visible");
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          polaroid.classList.add("polaroid-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 },
+  );
+
+  observer.observe(polaroid);
+})();
+
+// ================================
 // CUSTOM CURSOR
 // A small glyph that follows the
 // pointer. Desktop (fine pointer)
@@ -266,6 +301,14 @@ function closeArticle() {
   articleOverlay.classList.remove("open");
   articleOverlay.setAttribute("aria-hidden", "true");
   document.body.classList.remove("overlay-open");
+
+  // clearing the hash makes the browser try to jump to the very top of
+  // the page — landing back on the project grid instead reads as "go
+  // back," not "start over"
+  const projectsSection = document.getElementById("projects");
+  if (projectsSection) {
+    projectsSection.scrollIntoView({ behavior: "auto", block: "start" });
+  }
 }
 
 if (articleOverlay && articleBack) {
@@ -295,7 +338,6 @@ if (articleOverlay && articleBack) {
 // ================================
 const statusStyles = {
   shipped: { bg: "#d4e8cc", color: "#3a5a32", border: "#a8c49a" },
-  live: { bg: "#d4e8cc", color: "#3a5a32", border: "#a8c49a" },
   "in development": { bg: "#f5dce3", color: "#8a3a4a", border: "#e8b4c0" },
   "under submission": { bg: "#ede9fe", color: "#4c1d95", border: "#c4b5fd" },
   research: { bg: "#ede9fe", color: "#4c1d95", border: "#c4b5fd" },
@@ -321,22 +363,23 @@ function renderProjects(projects) {
   if (!grid) return;
 
   grid.innerHTML = projects
-    .map(
-      (project) => `
+    .map((project) => {
+      const s = statusStyles[project.status] || statusStyles.shipped;
+      return `
       <div class="card" data-id="${project.id}" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="card-header">
           <h3>${project.title}</h3>
-          <span>${project.status}</span>
+          <span style="background:${s.bg}; color:${s.color}; border-color:${s.border}">${project.status}</span>
         </div>
         ${project.subtitle ? `<p class="card-subtitle">${project.subtitle}</p>` : ""}
         <p>${project.overview}</p>
         <div class="card-footer">
-          ${project.stack.map((s) => `<span>${s}</span>`).join("")}
+          ${project.stack.map((tech) => `<span>${tech}</span>`).join("")}
         </div>
         <span class="card-expand-hint">read more</span>
       </div>
-    `,
-    )
+    `;
+    })
     .join("");
 }
 
@@ -346,7 +389,7 @@ function renderProjects(projects) {
 let loadedProjects = [];
 
 function openProjectOverlay(project) {
-  const s = statusStyles[project.status] || statusStyles.live;
+  const s = statusStyles[project.status] || statusStyles.shipped;
   articleCat.textContent = project.status;
   articleCat.style.background = s.bg;
   articleCat.style.color = s.color;
