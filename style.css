@@ -884,7 +884,13 @@ a {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /*
+    280px (not 300px) so 3 columns reliably fit within .projects'
+    1000px cap even at the larger root font-size — the old 300px
+    minimum was just barely too wide for 3 once the rem-based gap
+    and section padding grew with it.
+  */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
 }
 
