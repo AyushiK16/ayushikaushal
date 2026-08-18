@@ -958,9 +958,24 @@ a {
 }
 
 .projects {
-  max-width: 1000px;
+  /*
+    Wider than .about's 1000px on purpose — the heading text below
+    stays boxed to the old 1000px width (see .projects .section-intro),
+    but the card grid uses this full wider container, so cards get
+    noticeably less thin and a peek of the next row shows sooner.
+    1120px is deliberate, not round: with the grid's minmax(280px,1fr)
+    and 1rem gap, this is wide enough for 3 comfortably-sized columns
+    but stays under the ~1174px where auto-fit would squeeze in a 4th.
+  */
+  max-width: 1120px;
   margin: 0 auto;
-  padding: var(--space-2xl) var(--space-lg);
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.projects .section-intro {
+  max-width: 928px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ================================
