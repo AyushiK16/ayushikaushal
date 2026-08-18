@@ -47,6 +47,12 @@
 }
 
 html {
+  /*
+    Every font-size in this file is in rem, so bumping the root size
+    scales all of them (and any rem-based padding/margin) together —
+    text reads bigger everywhere without changing any proportions.
+  */
+  font-size: 18px;
   scroll-behavior: smooth; /* makes anchor links (#about) scroll smoothly */
 }
 
