@@ -6,9 +6,9 @@
   "overview": "A dashboard that reads financial news the way a trader skims a terminal — fast, and with a sense of which way the mood is turning.",
   "stack": ["next.js", "typescript", "tailwind", "finbert", "python"],
   "body": [
-    "A dashboard that reads financial news the way a trader skims a terminal — fast, and with a sense of which way the mood is turning.",
-    "The first version used VADER, which is a fine general-purpose sentiment model and a bad financial one. \"Shares plunge on beat-and-raise guidance\" is not a negative headline, but VADER is very confident that it is. Version two replaces it with FinBERT, which is trained on financial text and understands that the vocabulary of markets is its own dialect.",
-    "v2 also rebuilds the frontend properly — Next.js, TypeScript, Tailwind — because the analysis being right doesn't matter if reading it is a chore.",
-    "Actively in development."
+    "Markets react to news faster than any person can read it, and most sentiment tools quietly fail on financial text — a general-purpose model like VADER treats words like \"beat,\" \"short,\" \"bearish,\" or \"guidance cut\" as neutral or plain negative, when in a market context they carry precise, often opposite, signals. Pulse exists to read financial news the way someone who actually trades would.",
+    "The pipeline is straightforward on paper: news comes in, gets scored for sentiment, and surfaces on a live dashboard organised around tickers and topics. The scoring stage is where the real work is — v1 used VADER, and v2 replaces it entirely with FinBERT, a transformer pre-trained on financial language, so sentiment reads as domain-aware rather than dictionary-driven.",
+    "Swapping the whole sentiment engine rather than patching the old lexicon was a deliberate call — it's the difference between rule-based guessing and something that's actually learned what financial language means. v2 also rebuilds the frontend from scratch in Next.js, TypeScript, and Tailwind, because a dashboard that's right but slow to read isn't actually useful.",
+    "Actively building v2 — this is one of the core anchors of what I'm working on right now."
   ]
 }

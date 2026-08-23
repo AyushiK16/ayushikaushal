@@ -1,0 +1,16 @@
+{
+  "id": "movie-review-database",
+  "title": "movie review database",
+  "subtitle": "Oracle PL/SQL relational system",
+  "status": "shipped",
+  "overview": "A normalised relational database for movies, users, reviews, and genres — with the business logic living in the database itself, not an app layer.",
+  "stack": ["oracle", "sql", "plsql", "er modelling"],
+  "credit": "Team project at TIET (DBMS / UCS310), with 2 collaborators.",
+  "body": [
+    "Movie recommendations tend to live in scattered, inconsistent places — word of mouth, isolated ratings, no real structure behind any of it. This project builds a centralised, normalised relational database that stores movies, users, reviews, and genres with real integrity guarantees, and puts the business logic inside the database itself rather than in an app layer.",
+    "The design started as an ER diagram and mapped down to five tables — users, movies, reviews, genres, and a movie_genres junction table resolving the many-to-many between movies and genres. Users and movies each relate to reviews one-to-many; movies and genres relate many-to-many. Everything is normalised to third normal form, justified table by table in the write-up.",
+    "The actual engineering is in the PL/SQL: a movie_crud stored procedure handles add/edit/remove with proper exception handling via RAISE_APPLICATION_ERROR; an add_review procedure inserts a review and atomically bumps the user's score in the same block, so a failure rolls back both instead of leaving things half-written. Cursor procedures handle reporting — view_all_reviews and view_all_movie_reviews use implicit cursors, and display_movie_genres uses nested cursors to print each movie alongside its genres. Two views, top_movies and top_users, wrap the common reporting queries (joins plus group-by) into reusable interfaces.",
+    "The write-up explicitly maps the design onto ACID: atomicity through the single-block review-and-score update, consistency through foreign key and not-null constraints, isolation through Oracle's multi-version read consistency, and durability through commit and redo logs — along with how commit, rollback, and savepoint define the transaction boundaries. It's a genuine backend database project, not just a schema diagram.",
+    "Complete and submitted. Extensible toward recommendation or sentiment features, or a front end."
+  ]
+}

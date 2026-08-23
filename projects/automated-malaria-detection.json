@@ -1,0 +1,16 @@
+{
+  "id": "automated-malaria-detection",
+  "title": "automated malaria detection",
+  "subtitle": "Deep learning for blood-cell classification",
+  "status": "shipped",
+  "overview": "A CNN that classifies red blood cells as parasitized or uninfected — fast, accurate, and interpretable enough for a clinician to actually trust it.",
+  "stack": ["python", "tensorflow", "keras", "grad-cam", "tflite", "streamlit"],
+  "credit": "Team project at TIET, with 4 collaborators.",
+  "body": [
+    "Malaria kills hundreds of thousands of people a year, and diagnosis still leans on manual microscopy — slow, expert-dependent, and error-prone, where missing a single infected cell delays treatment. The goal was a CNN that classifies red blood cell images as parasitized or uninfected fast, accurately, and interpretably enough that a clinician could actually trust it, while handling three real problems head-on: class imbalance, noisy and inconsistent microscopy staining, and the need for interpretability for medical validation.",
+    "We used the NIH malaria dataset — about 27,558 red blood cell images split almost evenly between the two classes, which limits bias going in. Every image gets resized to 64×64 RGB, normalised, shuffled, and split 80/20 for training and validation, with rotation, zoom, and horizontal-flip augmentation to force the model to generalise instead of memorise.",
+    "The model itself is a three-block CNN built with medical imaging in mind: the first block (32 filters) picks up low-level features like edges and texture, the second (64 filters) captures mid-level detail like parasite morphology and membrane irregularities, and the third (128 filters) handles high-level shape — parasite rings, cell deformation. That feeds into a dense layer with dropout and a single sigmoid output for the infected/uninfected call, trained with Adam and binary cross-entropy over 15 epochs.",
+    "Two things made this more than a standard classifier. First, class imbalance got handled two separate ways — balanced class weights and Focal Loss (γ=2, α=0.25) — specifically to push down false negatives, which is the costly error in a diagnostic tool. Second, Grad-CAM heatmaps over validation samples confirmed the model was actually looking at parasite regions rather than staining artifacts, which is the check that actually matters for medical trust. On the deployment side, the model is saved as .keras and converted to TFLite with negligible accuracy loss, so it can run on a phone, a Raspberry Pi, or other low-resource clinical hardware, wrapped in a Streamlit dashboard with live prediction, EDA, performance views, and a simulated prediction API.",
+    "It lands around 95–96% accuracy, an ROC AUC of about 0.98, and precision, recall, and F1 all around 0.95 — with recall on the infected class at 0.96, which is the number that actually matters here, since catching infections is the whole point. The confusion matrix shows a strong diagonal with very few false negatives, and training and validation curves track closely, so it's not just overfitting to the training set. Next steps: transfer learning with something like MobileNet or EfficientNet, a larger dataset, and eventually a real-time app."
+  ]
+}

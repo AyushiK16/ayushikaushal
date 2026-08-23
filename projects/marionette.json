@@ -3,10 +3,12 @@
   "title": "marionette",
   "subtitle": "Gesture-controlled Spotify player",
   "status": "shipped",
-  "overview": "Conducting music with your hands — a sentence that sounds better than the engineering behind it deserves.",
-  "stack": ["python", "mediapipe", "scikit-learn", "spotify api"],
+  "overview": "Controlling Spotify with nothing but your hands in front of a webcam — reliably, regardless of how far away or where in the frame the hand sits.",
+  "stack": ["python", "mediapipe", "scikit-learn", "custom feature engineering", "spotify api"],
   "body": [
-    "Conducting music with your hands, which is a sentence that sounds better than the engineering behind it deserves — but the engineering is the part I'm proud of.",
-    "MediaPipe handles hand landmark detection, and a KNN classifier maps gestures to playback controls. The piece I actually designed was the feature vector: raw landmark coordinates are useless for classification because they encode where your hand is and how big it appears, not what shape it's making. A custom normalised feature vector strips out position and scale so the classifier learns gesture geometry instead of memorising your webcam setup."
+    "Controlling music playback with nothing but your hands in front of a webcam — no keyboard, no phone, no wearable. The hard part isn't reading a hand once; it's reading it reliably no matter how far it is from the camera or where it sits in the frame.",
+    "It started as GestureForge, a v1 with hard-coded, rule-based gesture logic — if the fingers look roughly like this, do that. It worked, but it was brittle, and it didn't really teach me anything about the actual problem. Marionette is the rewrite: a webcam feed goes through MediaPipe for hand landmark detection, then through a custom normalised feature vector I designed so a gesture looks the same to the model whether the hand is near or far, left or right. A KNN classifier takes that vector and predicts the gesture, which maps to a Spotify action — play, pause, skip.",
+    "The feature normalisation is the part I'm actually proud of — it wasn't borrowed from anywhere, and it's what makes recognition position- and scale-invariant. Going from GestureForge's hard-coded rules to Marionette's trained KNN classifier is a clean example of moving from heuristics to something actually data-driven.",
+    "Built and shipped, and documented publicly in a couple of LinkedIn write-ups."
   ]
 }
